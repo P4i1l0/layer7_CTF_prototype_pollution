@@ -1,0 +1,1 @@
+docker build -t layer7 . && docker run --name layer7 -p 3000:3000 -d layer7

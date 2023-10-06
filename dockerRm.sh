@@ -1,0 +1,1 @@
+docker stop layer7 && docker rm layer7 && docker rmi layer7 && docker build -t layer7 . && docker run --name layer7 -p 3000:3000 -d layer7
