@@ -20,34 +20,31 @@ app.get("/", (req, res) => {
 });
 
 app.post("/login", (req, res) => {
-    let { username, password } = req.body;
-    try {
-        password = JSON.parse(password);
-        return res.send(test(password));
-    } catch (e) { }
+    const { username, password } = req.body;
     connection.query(`select * from users where id=? and pw=?`, [username, password], (error, results, fields) => {
         if (error) {
-            return res.send(error)
+            res.send("error")
         } else {
             if (results.length > 0) {
-                return res.send(process.env.FLAG);
+                res.send(process.env.FLAG);
             } else {
-                return res.send("wrong");
+                res.send("wrong");
             }
         }
     });
 });
 
-function test(a) {
-    console.log(a)
-    const obj = merge({}, a);
+app.post("/test", (req, res) => {
+    const obj = merge({}, req.body);
     const r = {};
 
     if (r.status == "test_code") {
         const flag = process.env.FLAG;
-        return flag;
+        r.__proto__.status = "";
+        return res.send(flag);
     }
-};
+    return res.send("this is test code");
+});
 
 function merge(ob1, ob2) {
     for (let i in ob2) {
